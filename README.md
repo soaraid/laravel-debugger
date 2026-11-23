@@ -23,7 +23,7 @@ It is not a recorder like Telescope: it reads what your app already has (log fil
 
 ## Install
 
-Requires PHP 8.2+ and Laravel 11 or 12.
+Requires PHP 8.2+ and Laravel 12 or 13 (Laravel 13 needs PHP 8.3+).
 
 ```bash
 composer require soara/laravel-debugger

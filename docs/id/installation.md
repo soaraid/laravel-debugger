@@ -8,7 +8,7 @@ Pasang package dengan Composer, jalankan migration, lalu buka `/debugger`. Cuma 
 ## Kebutuhan
 
 - PHP 8.2 atau lebih baru
-- Laravel 11 atau 12
+- Laravel 12 atau 13 (Laravel 13 butuh PHP 8.3)
 
 ## Pasang package
 

@@ -41,7 +41,7 @@ dari `composer.json` dan kode, jangan mengarang.
 | `category` | Satu kategori, mis. `Debugging` |
 | `version` | Versi rilis terakhir, tanpa `v` |
 | `license` | Sama dengan `composer.json` |
-| `requires` | Kebutuhan minimum, mis. `{ "php": "8.2+", "laravel": "11, 12" }` |
+| `requires` | Kebutuhan minimum, mis. `{ "php": "8.2+", "laravel": "12, 13" }` |
 | `install` | Satu perintah pasang |
 | `description` | `{ "id": "...", "en": "..." }`, satu kalimat |
 | `steps` | Langkah mulai cepat per bahasa: `[{ "label": "...", "code": "..." }]` |

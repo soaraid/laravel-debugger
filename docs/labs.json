@@ -7,7 +7,7 @@
     "category": "Debugging",
     "version": "0.1.0",
     "license": "MIT",
-    "requires": { "php": "8.2+", "laravel": "11, 12" },
+    "requires": { "php": "8.2+", "laravel": "12, 13" },
     "install": "composer require soara/laravel-debugger",
     "description": {
         "id": "Log viewer dan halaman ops yang selalu dibutuhkan aplikasi Laravel, dalam satu halaman di /debugger.",
