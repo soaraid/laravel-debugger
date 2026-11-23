@@ -142,3 +142,16 @@ it('prunes old runs', function () {
 
     expect(collect(runs())->pluck('task')->all())->toBe(['new']);
 });
+
+it('pages recent runs 25 at a time with page numbers', function () {
+    Debugger::auth(fn () => true);
+    $rows = [];
+    for ($i = 0; $i < 30; $i++) {
+        $rows[] = ['task' => 'ping', 'expression' => '* * * * *', 'status' => 'ran', 'started_at' => now()->subMinutes($i), 'finished_at' => now()->subMinutes($i)];
+    }
+    DB::table('debugger_schedule_runs')->insert($rows);
+
+    $page = $this->getJson('/debugger/api/scheduler?page=2')->assertOk()->json('pagination');
+
+    expect($page)->toMatchArray(['page' => 2, 'last_page' => 2, 'range' => '26–30 of 30', 'has_previous' => true, 'has_next' => false]);
+});

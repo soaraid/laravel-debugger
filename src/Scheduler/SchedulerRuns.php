@@ -35,11 +35,12 @@ class SchedulerRuns
     }
 
     /**
-     * @return array{runs: list<object>, has_more: bool, error: ?string}
+     * @return array{runs: list<object>, has_more: bool, total: int, error: ?string}
      */
-    public function recent(int $page = 1, int $perPage = 50): array
+    public function recent(int $page = 1, int $perPage = 25): array
     {
         try {
+            $total = $this->table()->count();
             $rows = $this->table()
                 ->orderByDesc('started_at')
                 ->orderByDesc('id')
@@ -48,10 +49,10 @@ class SchedulerRuns
                 ->get()
                 ->all();
         } catch (Throwable $e) {
-            return ['runs' => [], 'has_more' => false, 'error' => $e->getMessage()];
+            return ['runs' => [], 'has_more' => false, 'total' => 0, 'error' => $e->getMessage()];
         }
 
-        return ['runs' => array_slice($rows, 0, $perPage), 'has_more' => count($rows) > $perPage, 'error' => null];
+        return ['runs' => array_slice($rows, 0, $perPage), 'has_more' => count($rows) > $perPage, 'total' => $total, 'error' => null];
     }
 
     /**

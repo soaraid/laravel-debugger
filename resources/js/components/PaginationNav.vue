@@ -6,13 +6,15 @@ import DButton from './DButton.vue';
 const props = defineProps({ pagination: { type: Object, required: true } });
 const route = useRoute();
 const at = (page) => ({ query: { ...route.query, page: page > 1 ? page : undefined } });
-const show = computed(() => props.pagination.has_previous || props.pagination.has_next);
+// Shown under every list that has rows, even a single page, so every list
+// ends the same way: the range on the left, the page controls on the right.
+const show = computed(() => Boolean(props.pagination.range));
 
 // 1 … 4 5 6 … 474: the first and last page, and the pages around the current one.
 const numbers = computed(() => {
     const last = props.pagination.last_page;
     const current = props.pagination.page;
-    if (!last || last < 2) return [];
+    if (!last) return [];
 
     const pages = [...new Set([1, current - 1, current, current + 1, last])]
         .filter((p) => p >= 1 && p <= last)

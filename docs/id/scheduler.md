@@ -10,7 +10,7 @@ Halaman Scheduler menampilkan task di `routes/console.php`, kapan berikutnya jal
 ## Yang ditampilkan
 
 - Satu baris per task: nama atau command, cron expression dengan penjelasan seperti "every 5 minutes", run berikutnya, dan run terakhir beserta statusnya.
-- Recent runs: jam, task, status, dan durasi. 50 per halaman.
+- Recent runs: jam, task, status, dan durasi. 25 per halaman.
 - Pemberitahuan kalau `schedule:run` belum pernah jalan, lengkap dengan baris cron yang perlu ditambahkan di server.
 - Pemberitahuan merah kalau `schedule:run` tidak jalan lebih lama dari `scheduler.late_after_minutes`.
 

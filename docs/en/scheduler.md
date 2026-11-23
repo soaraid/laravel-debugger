@@ -10,7 +10,7 @@ The Scheduler page shows the tasks in `routes/console.php`, when they run next, 
 ## What it shows
 
 - One row per task: name or command, the cron expression with a description like "every 5 minutes", the next run, and the last run with its status.
-- Recent runs: time, task, status, and duration. 50 per page.
+- Recent runs: time, task, status, and duration. 25 per page.
 - A notice when `schedule:run` has never run, with the cron line to add on the server.
 - A red notice when `schedule:run` hasn't run for longer than `scheduler.late_after_minutes`.
 

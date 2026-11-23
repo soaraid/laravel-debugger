@@ -15,7 +15,7 @@ class SchedulerController extends Controller
     public function index(Request $request, SchedulerRuns $runs, Heartbeat $heartbeat): JsonResponse
     {
         $page = max(1, $request->integer('page', 1));
-        $recent = $runs->recent($page, 50);
+        $recent = $runs->recent($page, 25);
         $last = $heartbeat->lastBeat();
 
         return response()->json([
@@ -41,7 +41,7 @@ class SchedulerController extends Controller
             'never_ran' => $last === null,
             'cron' => '* * * * * cd '.base_path().' && php artisan schedule:run >> /dev/null 2>&1',
             'retention' => (int) config('debugger.scheduler.retention_days', 7),
-            'pagination' => $this->pages($page, count($recent['runs']), 50, $recent['has_more']),
+            'pagination' => $this->pages($page, count($recent['runs']), 25, $recent['has_more'], $recent['total']),
         ]);
     }
 }
