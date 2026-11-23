@@ -23,9 +23,9 @@ Untuk developer yang merawat aplikasi Laravel yang sudah berjalan. Biasanya ini 
 
 Setiap modul bisa dimatikan satu per satu. Lihat [Konfigurasi](./configuration.md).
 
-## Bukan Telescope
+## Bedanya dengan Laravel Telescope
 
-Laravel Debugger tidak merekam request, query, atau event. Ia membaca apa yang sudah ada di aplikasi Anda: file log, tabel failed jobs, dan config. Yang ia simpan sendiri hanya dua hal kecil: riwayat run scheduler dan audit log aksi di debugger. Jadi tidak ada beban tambahan di setiap request aplikasi.
+Laravel Debugger tidak merekam request, query, atau event. Ia membaca apa yang sudah ada di aplikasi Anda: file log, tabel failed jobs, dan config. Yang ia simpan sendiri hanya dua hal kecil: riwayat run scheduler dan audit log aksi di debugger. Jadi tidak ada beban tambahan di setiap request aplikasi. Keduanya bisa dipakai bersamaan.
 
 ## Langkah berikutnya
 

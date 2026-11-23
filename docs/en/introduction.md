@@ -23,9 +23,9 @@ For developers who look after a Laravel app that is already running. This is usu
 
 Every module can be turned off on its own. See [Configuration](./configuration.md).
 
-## Not Telescope
+## How it differs from Laravel Telescope
 
-Laravel Debugger does not record requests, queries, or events. It reads what your app already has: log files, the failed jobs table, and config. It stores only two small things itself: a history of scheduler runs and an audit log of actions taken in the debugger. So there is no extra work on each request of your app.
+Laravel Debugger does not record requests, queries, or events. It reads what your app already has: log files, the failed jobs table, and config. It stores only two small things itself: a history of scheduler runs and an audit log of actions taken in the debugger. So there is no extra work on each request of your app. You can use both together.
 
 ## Next step
 
