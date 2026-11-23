@@ -60,6 +60,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      # The npm the lock file was written with; older ones read its
+      # optional peer dependencies differently and refuse to install.
+      - run: npm install -g npm@11.6.2
       - run: npm ci
       - run: npm run build
       - name: dist/ is up to date
