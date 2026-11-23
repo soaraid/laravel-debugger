@@ -1,0 +1,123 @@
+{
+    "slug": "laravel-debugger",
+    "name": "Laravel Debugger",
+    "package": "soara/laravel-debugger",
+    "repository": "https://github.com/soaraid/laravel-debugger",
+    "stack": ["Laravel"],
+    "category": "Debugging",
+    "version": "0.1.0",
+    "license": "MIT",
+    "requires": { "php": "8.2+", "laravel": "11, 12" },
+    "install": "composer require soara/laravel-debugger",
+    "description": {
+        "id": "Log viewer dan halaman ops yang selalu dibutuhkan aplikasi Laravel, dalam satu halaman di /debugger.",
+        "en": "A log viewer and the ops pages every Laravel app ends up needing, on one page at /debugger."
+    },
+    "steps": {
+        "id": [
+            { "label": "Pasang", "code": "composer require soara/laravel-debugger" },
+            { "label": "Buat tabelnya", "code": "php artisan migrate" },
+            { "label": "Buka", "code": "http://localhost/debugger" }
+        ],
+        "en": [
+            { "label": "Install", "code": "composer require soara/laravel-debugger" },
+            { "label": "Create the tables", "code": "php artisan migrate" },
+            { "label": "Open it", "code": "http://localhost/debugger" }
+        ]
+    },
+    "modules": [
+        {
+            "slug": "overview",
+            "name": "Overview",
+            "icon": "layout-dashboard",
+            "description": {
+                "id": "Satu daftar yang menunjukkan bagian mana yang perlu dicek.",
+                "en": "One list that shows which parts need a look."
+            }
+        },
+        {
+            "slug": "logs",
+            "name": "Logs",
+            "icon": "file-text",
+            "description": {
+                "id": "Baca file log dengan filter level, pencarian dan stack trace yang rapi.",
+                "en": "Read log files with level filters, search and a readable stack trace."
+            }
+        },
+        {
+            "slug": "queue",
+            "name": "Queue",
+            "icon": "stack-2",
+            "description": {
+                "id": "Lihat failed job beserta exception-nya, lalu retry atau hapus.",
+                "en": "See failed jobs with their exception, then retry or delete them."
+            }
+        },
+        {
+            "slug": "scheduler",
+            "name": "Scheduler",
+            "icon": "clock",
+            "description": {
+                "id": "Task terjadwal, jadwal berikutnya, dan riwayat tiap run.",
+                "en": "Scheduled tasks, when they run next, and a history of every run."
+            }
+        },
+        {
+            "slug": "cache",
+            "name": "Cache",
+            "icon": "refresh",
+            "description": {
+                "id": "Kosongkan cache aplikasi, config, route dan view tanpa membuka terminal.",
+                "en": "Clear the application, config, route and view caches without a terminal."
+            }
+        },
+        {
+            "slug": "mail",
+            "name": "Mail",
+            "icon": "mail",
+            "description": {
+                "id": "Kirim email tes lewat queue atau langsung untuk mengecek setting mailer.",
+                "en": "Send a test email through the queue or right away to check the mailer."
+            }
+        },
+        {
+            "slug": "storage",
+            "name": "Storage",
+            "icon": "folder",
+            "description": {
+                "id": "Upload file tes ke disk dan cek apakah disk bisa ditulis dan dibaca.",
+                "en": "Upload a test file to a disk and check that disks can be written and read."
+            }
+        },
+        {
+            "slug": "connections",
+            "name": "Connections",
+            "icon": "plug-connected",
+            "description": {
+                "id": "Ping API eksternal yang dipakai aplikasi dan lihat jawabannya.",
+                "en": "Ping the external APIs your app calls and see how they answer."
+            }
+        },
+        {
+            "slug": "users",
+            "name": "Users",
+            "icon": "users",
+            "description": {
+                "id": "Masuk sebagai user lain untuk melihat aplikasi seperti yang mereka lihat.",
+                "en": "Log in as another user to see the app the way they see it."
+            }
+        }
+    ],
+    "sidebar": {
+        "id": [
+            { "group": "Mulai", "pages": ["introduction", "installation", "configuration", "access-control"] },
+            { "group": "Modul", "pages": ["overview", "logs", "queue", "scheduler", "cache", "mail", "storage", "connections", "users"] },
+            { "group": "Production", "pages": ["security", "read-only-mode"] }
+        ],
+        "en": [
+            { "group": "Getting started", "pages": ["introduction", "installation", "configuration", "access-control"] },
+            { "group": "Modules", "pages": ["overview", "logs", "queue", "scheduler", "cache", "mail", "storage", "connections", "users"] },
+            { "group": "Production", "pages": ["security", "read-only-mode"] }
+        ]
+    }
+}

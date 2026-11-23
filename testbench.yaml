@@ -1,0 +1,37 @@
+laravel: '@testbench'
+
+env:
+  - APP_ENV=local
+  - APP_KEY=base64:s/0scQYt7krGIwfjoCd96RoGkJP9lZv6NRFCUiO+cp4=
+  - APP_NAME=Workbench
+  - APP_DEBUG=true
+  - DB_CONNECTION=sqlite
+
+providers:
+  - Soara\Debugger\DebuggerServiceProvider
+  - Workbench\App\Providers\WorkbenchServiceProvider
+
+migrations:
+  - workbench/database/migrations
+
+seeders:
+  - Workbench\Database\Seeders\DatabaseSeeder
+
+workbench:
+  start: '/debugger'
+  install: true
+  health: false
+  discovers:
+    web: true
+    api: false
+    commands: false
+    components: false
+    views: false
+  build:
+    - create-sqlite-db
+    - db-wipe
+    - migrate-fresh:
+        --seed: true
+        --seeder: Workbench\Database\Seeders\DatabaseSeeder
+  assets: []
+  sync: []

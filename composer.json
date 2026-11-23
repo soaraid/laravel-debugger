@@ -1,0 +1,87 @@
+{
+    "name": "soara/laravel-debugger",
+    "description": "Log viewer and debugging tools for Laravel apps: logs, failed jobs, scheduler, cache, mail, storage, external connections and user impersonation.",
+    "keywords": [
+        "laravel",
+        "debugger",
+        "logs",
+        "log viewer",
+        "queue",
+        "scheduler",
+        "impersonate"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://labs.soara.id/laravel-debugger",
+    "support": {
+        "issues": "https://github.com/soaraid/laravel-debugger/issues",
+        "source": "https://github.com/soaraid/laravel-debugger",
+        "docs": "https://labs.soara.id/laravel-debugger"
+    },
+    "authors": [
+        {
+            "name": "Soara",
+            "homepage": "https://soara.id"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^9.0|^10.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Soara\\Debugger\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Soara\\Debugger\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Soara\\Debugger\\DebuggerServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "npx concurrently -c \"#93c5fd,#c4b5fd\" \"php vendor/bin/testbench serve --ansi\" \"npm run dev\" --names=server,assets --kill-others"
+        ],
+        "test": "@php vendor/bin/pest",
+        "lint": "@php vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
