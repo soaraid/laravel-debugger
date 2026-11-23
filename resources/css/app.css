@@ -20,6 +20,9 @@ html {
     /* Keep room for the page scrollbar, so the layout doesn't shift
        between pages that scroll and pages that don't. */
     scrollbar-gutter: stable;
+    /* The gutter is painted with the root's background, not body's: same
+       colour, so it doesn't show as an empty strip on pages that don't scroll. */
+    background: var(--color-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
