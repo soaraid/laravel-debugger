@@ -32,6 +32,8 @@ php artisan migrate
 
 Open `/debugger`. There is nothing to build: the app ships prebuilt with the package and works with or without Inertia, Livewire or Vue.
 
+On a server, also run `php artisan debugger:publish` (best from Composer's `post-autoload-dump` script) so the web server serves the assets as static files. See [Installation](docs/en/installation.md#publish-the-assets-for-production).
+
 ## Who can open it
 
 Out of the box only the `local` environment can open the debugger. To open it elsewhere, define a gate:

@@ -41,6 +41,33 @@ php artisan vendor:publish --tag=debugger-config
 
 File-nya ada di `config/debugger.php`.
 
+## Publish aset untuk production
+
+Di lokal, CSS, JS, dan font debugger dilayani lewat route PHP, jadi tidak perlu langkah apa pun. Di server, salin aset itu ke `public/vendor/debugger` supaya web server melayaninya sebagai file statis biasa:
+
+```bash
+php artisan debugger:publish
+```
+
+Supaya selalu ikut ter-update, tambahkan ke script Composer aplikasi Anda. Perintah ini lalu berjalan di setiap `composer install` dan `composer update`, termasuk saat deploy:
+
+```json title="composer.json"
+"scripts": {
+    "post-autoload-dump": [
+        "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+        "@php artisan package:discover --ansi",
+        "@php artisan debugger:publish --ansi"
+    ]
+}
+```
+
+Lalu tambahkan `/public/vendor/debugger` ke `.gitignore`.
+
+> [!WARNING]
+> Banyak konfigurasi Nginx menganggap URL berakhiran `.css`, `.js`, atau `.woff2` sebagai file statis. Tanpa publish, aset debugger bisa dijawab 404 dan halamannya tampil rusak.
+
+Kalau Anda lupa publish ulang setelah update package, debugger tidak memuat aset versi lama. Ia kembali memakai route PHP sampai Anda publish lagi.
+
 ## Buka debugger
 
 Buka `/debugger` di aplikasi Anda, misalnya `http://localhost/debugger`. Halaman pertama adalah [Overview](./overview.md).

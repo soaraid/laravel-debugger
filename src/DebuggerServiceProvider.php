@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Soara\Debugger\Console\PruneCommand;
+use Soara\Debugger\Console\PublishCommand;
 use Soara\Debugger\Http\Middleware\Authorize;
 use Soara\Debugger\Http\Middleware\InjectImpersonationBar;
 use Soara\Debugger\Logs\LogReader;
@@ -22,7 +23,7 @@ class DebuggerServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/debugger.php', 'debugger');
 
-        $this->app->singleton(Assets::class, fn (): Assets => new Assets(__DIR__.'/../dist'));
+        $this->app->singleton(Assets::class, fn (): Assets => new Assets(__DIR__.'/../dist', public_path(Assets::PUBLIC_DIR)));
 
         $this->app->bind(LogReader::class, fn (): LogReader => new LogReader(
             storage_path('logs'),
@@ -97,7 +98,7 @@ class DebuggerServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->commands([PruneCommand::class]);
+        $this->commands([PruneCommand::class, PublishCommand::class]);
 
         if (config('debugger.scheduler.prune', true)) {
             $this->callAfterResolving(Schedule::class, function (Schedule $schedule): void {
@@ -119,5 +120,10 @@ class DebuggerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/debugger'),
         ], 'debugger-views');
+
+        // Same as `php artisan debugger:publish`, which also removes old files.
+        $this->publishes([
+            __DIR__.'/../dist/assets' => public_path(Assets::PUBLIC_DIR.'/assets'),
+        ], 'debugger-assets');
     }
 }

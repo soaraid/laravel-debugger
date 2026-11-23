@@ -7,6 +7,11 @@ use RuntimeException;
 /**
  * Resolves the built CSS/JS in dist/ (written by `npm run build`) through the
  * Vite manifest, so file names carry a content hash and can be cached forever.
+ *
+ * Files copied to public/vendor/debugger (`php artisan debugger:publish`) are
+ * linked there, so the web server serves them as plain static files. Anything
+ * not published, or published from an older version (a different hash), is
+ * served through the debugger's asset route instead.
  */
 class Assets
 {
@@ -17,11 +22,30 @@ class Assets
     /** @var array<string, array<string, mixed>>|null */
     protected ?array $manifest = null;
 
-    public function __construct(protected string $distPath) {}
+    public const PUBLIC_DIR = 'vendor/debugger';
+
+    public function __construct(protected string $distPath, protected ?string $publicPath = null) {}
 
     public function url(string $entry): string
     {
-        return route('debugger.asset', ['path' => $this->file($entry)]);
+        return $this->link($this->file($entry));
+    }
+
+    /**
+     * The published copy when it exists, otherwise the asset route.
+     */
+    public function link(string $file): string
+    {
+        if ($this->publicPath !== null && is_file($this->publicPath.'/'.$file)) {
+            return asset(self::PUBLIC_DIR.'/'.$file);
+        }
+
+        return route('debugger.asset', ['path' => $file]);
+    }
+
+    public function distPath(): string
+    {
+        return $this->distPath;
     }
 
     public function file(string $entry): string
@@ -46,7 +70,7 @@ class Assets
         $files = (array) ($this->manifest()[self::ENTRY_CSS]['assets'] ?? []);
 
         return array_values(array_map(
-            fn (string $file): string => route('debugger.asset', ['path' => $file]),
+            fn (string $file): string => $this->link($file),
             array_filter($files, fn (string $file): bool => (bool) preg_match('/-latin-wght-normal-[\w-]+\.woff2$/', $file)),
         ));
     }

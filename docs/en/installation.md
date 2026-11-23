@@ -41,6 +41,33 @@ php artisan vendor:publish --tag=debugger-config
 
 The file ends up in `config/debugger.php`.
 
+## Publish the assets for production
+
+Locally, the debugger's CSS, JS and fonts are served through a PHP route, so there is nothing to do. On a server, copy them to `public/vendor/debugger` so the web server serves them as plain static files:
+
+```bash
+php artisan debugger:publish
+```
+
+To keep them up to date, add it to your app's Composer scripts. It then runs on every `composer install` and `composer update`, deploys included:
+
+```json title="composer.json"
+"scripts": {
+    "post-autoload-dump": [
+        "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+        "@php artisan package:discover --ansi",
+        "@php artisan debugger:publish --ansi"
+    ]
+}
+```
+
+Then add `/public/vendor/debugger` to `.gitignore`.
+
+> [!WARNING]
+> Many Nginx setups treat URLs ending in `.css`, `.js` or `.woff2` as static files. Without publishing, the debugger's assets can come back as 404 and the page looks broken.
+
+If you forget to publish again after updating the package, the debugger doesn't load the old assets. It falls back to the PHP route until you publish again.
+
 ## Open the debugger
 
 Open `/debugger` in your app, for example `http://localhost/debugger`. The first page is the [Overview](./overview.md).
