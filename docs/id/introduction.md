@@ -29,4 +29,4 @@ Laravel Debugger tidak merekam request, query, atau event. Ia membaca apa yang s
 
 ## Langkah berikutnya
 
-Lanjut ke [Instalasi](./installation.md).
+Lanjut ke [Instalasi](./installation.md), lalu atur siapa yang boleh membuka debugger di [Kontrol akses](./access-control.md).

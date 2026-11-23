@@ -29,4 +29,4 @@ Laravel Debugger does not record requests, queries, or events. It reads what you
 
 ## Next step
 
-Continue to [Installation](./installation.md).
+Continue to [Installation](./installation.md), then choose who may open the debugger in [Access control](./access-control.md).
