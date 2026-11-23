@@ -4,8 +4,9 @@ Aturan untuk folder `docs/` di setiap repo package Soara. Website labs.soara.id
 mengambil folder ini dari tiap repo, jadi bentuknya harus sama di semua package.
 Satu package = satu repo.
 
-URL di labs: ID di `/<slug-package>/<slug-halaman>`, EN di
-`/en/<slug-package>/<slug-halaman>`.
+URL di labs: ID di `/docs/<slug-package>/<slug-halaman>`, EN di
+`/en/docs/<slug-package>/<slug-halaman>`. Halaman utama docs satu package ada
+di `/docs/<slug-package>`, misalnya https://labs.soara.id/docs/laravel-debugger.
 
 ## Struktur folder
 
@@ -44,6 +45,8 @@ dari `composer.json` dan kode, jangan mengarang.
 | `requires` | Kebutuhan minimum, mis. `{ "php": "8.2+", "laravel": "12, 13" }` |
 | `install` | Satu perintah pasang |
 | `description` | `{ "id": "...", "en": "..." }`, satu kalimat |
+| `note` | Opsional. Catatan penting di halaman Ringkasan, per bahasa, satu kalimat |
+| `noteLink` | Opsional. Slug halaman yang dibuka dari catatan itu, mis. `access-control` |
 | `steps` | Langkah mulai cepat per bahasa: `[{ "label": "...", "code": "..." }]` |
 | `modules` | Opsional. Bagian package: `slug`, `name`, `icon` (nama ikon Tabler), `description` per bahasa |
 | `sidebar` | Per bahasa: `[{ "group": "...", "pages": ["slug", ...] }]` |

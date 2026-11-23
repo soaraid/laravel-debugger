@@ -1,0 +1,12 @@
+name: Update labs.soara.id
+on:
+  push:
+    branches: [main]
+    paths: ['docs/**']
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages build
+        run: curl -fsS -X POST "${{ secrets.LABS_DEPLOY_HOOK }}"

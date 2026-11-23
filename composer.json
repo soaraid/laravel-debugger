@@ -12,11 +12,11 @@
     ],
     "type": "library",
     "license": "MIT",
-    "homepage": "https://labs.soara.id/laravel-debugger",
+    "homepage": "https://labs.soara.id/docs/laravel-debugger",
     "support": {
         "issues": "https://github.com/soaraid/laravel-debugger/issues",
         "source": "https://github.com/soaraid/laravel-debugger",
-        "docs": "https://labs.soara.id/laravel-debugger"
+        "docs": "https://labs.soara.id/docs/laravel-debugger"
     },
     "authors": [
         {

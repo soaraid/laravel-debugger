@@ -2,7 +2,7 @@
 
 A log viewer and the ops pages every Laravel app ends up needing, on one page at `/debugger`.
 
-**Full documentation: https://labs.soara.id/laravel-debugger**
+**Full documentation: https://labs.soara.id/docs/laravel-debugger**
 (until the site is live, read it on GitHub: [English](docs/en/introduction.md) · [Bahasa Indonesia](docs/id/introduction.md))
 
 ![The Overview page](docs/images/overview.png)

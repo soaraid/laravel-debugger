@@ -13,6 +13,11 @@
         "id": "Log viewer dan halaman ops yang selalu dibutuhkan aplikasi Laravel, dalam satu halaman di /debugger.",
         "en": "A log viewer and the ops pages every Laravel app ends up needing, on one page at /debugger."
     },
+    "note": {
+        "id": "Di production, debugger berjalan dalam mode baca-saja dan hanya terbuka untuk orang yang Anda izinkan lewat gate viewDebugger.",
+        "en": "In production the debugger runs read-only and only opens for the people you allow through the viewDebugger gate."
+    },
+    "noteLink": "access-control",
     "steps": {
         "id": [
             { "label": "Pasang", "code": "composer require soara/laravel-debugger" },
