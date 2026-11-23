@@ -42,7 +42,7 @@ async function impersonate(user) {
     if (result.redirect) window.location.assign(result.redirect);
 }
 
-const sessionColumns = [{ label: 'Time', width: '110px' }, { label: 'What happened', width: 'minmax(0, 1fr)' }];
+const sessionColumns = [{ label: 'Time', width: '72px' }, { label: 'What happened', width: 'minmax(0, 1fr)' }];
 </script>
 
 <template>
@@ -58,37 +58,42 @@ const sessionColumns = [{ label: 'Time', width: '110px' }, { label: 'What happen
                 <input id="user-search" v-model="search" class="dbg-input" type="search" placeholder="Search by name or email, e.g. budi">
             </form>
 
-            <EmptyState v-if="!data.users.length && route.query.q" :title="`No users match “${route.query.q}”`" description="Try part of the name or the email address.">
-                <template #action><DButton variant="secondary" :to="{ query: {} }">Clear search</DButton></template>
-            </EmptyState>
-            <EmptyState v-else-if="!data.users.length" title="No users yet" description="Users of the app show up here once they exist." />
-            <template v-else>
-                <DataTable :columns="columns">
-                    <TableRow v-for="user in data.users" :key="user.id">
-                        <span class="dbg-cell">
-                            <span class="dbg-cell--strong">{{ user.name }}</span>
-                            <span v-if="user.email" class="dbg-cell__sub">{{ user.email }}</span>
-                        </span>
-                        <span v-if="data.show_role" class="dbg-cell" style="color: var(--color-text-secondary)">{{ user.role || '–' }}</span>
-                        <span v-if="data.show_last_active" class="dbg-cell dbg-cell--muted dbg-cell--num">{{ user.last_active || '–' }}</span>
-                        <span class="dbg-cell dbg-cell--actions">
-                            <span v-if="user.refusal" class="dbg-cell--muted" style="padding-inline-end: var(--spacing-3)">{{ user.refusal }}</span>
-                            <ActionButton v-else-if="data.enabled" busy-label="Logging in…" :disabled="config.readOnly" :action="() => impersonate(user)">Log in as</ActionButton>
-                        </span>
-                    </TableRow>
-                </DataTable>
-                <PaginationNav :pagination="data.pagination" />
-            </template>
-        </template>
+            <!-- The user list fills the screen; recent sessions sit beside it. -->
+            <div :class="['dbg-fill', { 'dbg-aside-layout': data.sessions.length }]">
+                <div class="dbg-fill__list">
+                    <EmptyState v-if="!data.users.length && route.query.q" :title="`No users match “${route.query.q}”`" description="Try part of the name or the email address.">
+                        <template #action><DButton variant="secondary" :to="{ query: {} }">Clear search</DButton></template>
+                    </EmptyState>
+                    <EmptyState v-else-if="!data.users.length" title="No users yet" description="Users of the app show up here once they exist." />
+                    <template v-else>
+                        <DataTable :columns="columns">
+                            <TableRow v-for="user in data.users" :key="user.id">
+                                <span class="dbg-cell">
+                                    <span class="dbg-cell--strong">{{ user.name }}</span>
+                                    <span v-if="user.email" class="dbg-cell__sub">{{ user.email }}</span>
+                                </span>
+                                <span v-if="data.show_role" class="dbg-cell" style="color: var(--color-text-secondary)">{{ user.role || '–' }}</span>
+                                <span v-if="data.show_last_active" class="dbg-cell dbg-cell--muted dbg-cell--num">{{ user.last_active || '–' }}</span>
+                                <span class="dbg-cell dbg-cell--actions">
+                                    <span v-if="user.refusal" class="dbg-cell--muted" style="padding-inline-end: var(--spacing-3)">{{ user.refusal }}</span>
+                                    <ActionButton v-else-if="data.enabled" busy-label="Logging in…" :disabled="config.readOnly" :action="() => impersonate(user)">Log in as</ActionButton>
+                                </span>
+                            </TableRow>
+                        </DataTable>
+                        <PaginationNav :pagination="data.pagination" />
+                    </template>
+                </div>
 
-        <template v-if="data.sessions.length">
-            <h2 class="dbg-section-title">Recent sessions</h2>
-            <DataTable :columns="sessionColumns">
-                <TableRow v-for="entry in data.sessions" :key="entry.id">
-                    <span class="dbg-cell dbg-cell--muted dbg-cell--num">{{ entry.time }}</span>
-                    <span class="dbg-cell dbg-cell--truncate">{{ entry.text }} <span v-if="entry.after" class="dbg-cell--muted">{{ entry.after }}</span></span>
-                </TableRow>
-            </DataTable>
+                <section v-if="data.sessions.length" class="dbg-fill__aside">
+                    <h2 class="dbg-info-list__title">Recent sessions</h2>
+                    <DataTable :columns="sessionColumns">
+                        <TableRow v-for="entry in data.sessions" :key="entry.id">
+                            <span class="dbg-cell dbg-cell--muted dbg-cell--num">{{ entry.time }}</span>
+                            <span class="dbg-cell" style="white-space: normal">{{ entry.text }} <span v-if="entry.after" class="dbg-cell--muted">{{ entry.after }}</span></span>
+                        </TableRow>
+                    </DataTable>
+                </section>
+            </div>
         </template>
     </template>
 </template>

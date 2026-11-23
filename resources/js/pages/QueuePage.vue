@@ -51,7 +51,7 @@ const retryAll = () => api.post('/queue/retry-all').then(reload);
             Couldn't read failed jobs: {{ data.error }}. Check queue.failed in config/queue.php and that the failed jobs table exists.
         </Notice>
         <EmptyState v-else-if="!data.jobs.length" title="No failed jobs" description="Jobs that throw an exception land here so you can retry them." />
-        <template v-else>
+        <div v-else class="dbg-fill dbg-fill__list">
             <DataTable :columns="columns">
                 <TableRow v-for="job in data.jobs" :key="job.id" expandable>
                     <span class="dbg-cell dbg-cell--mono dbg-cell--strong dbg-cell--truncate"><RowToggle>{{ job.name }}</RowToggle></span>
@@ -74,6 +74,6 @@ const retryAll = () => api.post('/queue/retry-all').then(reload);
             </DataTable>
             <PaginationNav :pagination="data.pagination" />
             <p class="dbg-note">Retry sends the job back to its queue. Delete removes it from failed jobs and can't be undone.</p>
-        </template>
+        </div>
     </template>
 </template>

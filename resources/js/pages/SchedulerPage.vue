@@ -66,7 +66,7 @@ const runColumns = [
         <h2 class="dbg-section-title">Recent runs</h2>
         <Notice v-if="data.error" tone="danger">Couldn't read scheduler runs: {{ data.error }}. Run php artisan migrate to create the debugger tables.</Notice>
         <EmptyState v-else-if="!data.runs.length" title="No runs yet" description="Each task run is recorded here once schedule:run starts it." />
-        <template v-else>
+        <div v-else class="dbg-fill dbg-fill__list">
             <DataTable :columns="runColumns">
                 <TableRow v-for="run in data.runs" :key="run.id">
                     <span class="dbg-cell dbg-cell--muted dbg-cell--num">{{ run.time }}</span>
@@ -78,6 +78,6 @@ const runColumns = [
                 </TableRow>
             </DataTable>
             <PaginationNav :pagination="data.pagination" />
-        </template>
+        </div>
     </template>
 </template>

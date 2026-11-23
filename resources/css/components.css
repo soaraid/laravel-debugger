@@ -1144,67 +1144,97 @@ label.dbg-btn[aria-disabled='true'] {
 }
 
 
-/* Full-screen pages (Logs): the toolbar and pagination stay in view and
-   only the rows scroll, inside the table. Below 860px the page scrolls
-   normally, where a fixed-height list would be cramped. */
+/* Full-screen pages (Logs, Queue, Scheduler, Users): the title and the
+   pagination stay in view and only the rows of the page's main list
+   scroll, inside the table. Markup:
+
+     .dbg-fill          the part that takes the remaining height
+     .dbg-fill__list    a column: its table scrolls, the rest keeps its size
+     .dbg-fill__aside   a side panel that scrolls on its own
+
+   A short list keeps its natural height, with the pagination right under
+   it. Below 961px, where the side panels stack, the page scrolls normally. */
 #debugger {
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
 }
 
-@media (min-width: 861px) {
+@media (min-width: 961px) {
     #debugger:has(.dbg-main--fill) {
         height: 100dvh;
     }
 
-    /* Two classes: app.css's .dbg-main comes later and would win. */
+    /* Two classes: app.css's .dbg-main comes later and would win. A very
+       short window scrolls the page instead of squeezing the list away. */
     .dbg-main.dbg-main--fill {
         flex: 1 1 0;
         display: flex;
         flex-direction: column;
         min-height: 0;
         padding-bottom: var(--spacing-4);
-    }
-
-    .dbg-main--fill > .dbg-split {
-        flex: 1;
-        min-height: 0;
-    }
-
-    .dbg-main--fill .dbg-side {
-        min-height: 0;
         overflow-y: auto;
-        overscroll-behavior: contain;
     }
 
-    .dbg-main--fill .dbg-split__main {
+    .dbg-main--fill > * {
+        flex: none;
+    }
+
+    .dbg-main--fill > .dbg-fill {
+        flex: 1 1 0;
+        min-height: 12rem;
+    }
+
+    .dbg-main--fill > .dbg-fill:not(.dbg-split, .dbg-aside-layout) {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dbg-main--fill .dbg-fill.dbg-aside-layout {
+        align-items: stretch;
+    }
+
+    .dbg-main--fill .dbg-fill__list {
         display: flex;
         flex-direction: column;
         min-width: 0;
         min-height: 0;
     }
 
-    .dbg-main--fill .dbg-split__main > .dbg-table {
-        flex: 1;
+    .dbg-main--fill .dbg-fill:not(.dbg-split, .dbg-aside-layout) > .dbg-fill__list {
+        flex: 1 1 0;
+    }
+
+    .dbg-main--fill .dbg-fill__list > * {
+        flex: none;
+    }
+
+    .dbg-main--fill .dbg-fill__list > .dbg-table {
+        flex: 0 1 auto;
         min-height: 0;
         display: flex;
         flex-direction: column;
     }
 
-    .dbg-main--fill .dbg-table__head {
+    .dbg-main--fill .dbg-fill__list > .dbg-table > .dbg-table__head {
         flex: none;
     }
 
-    .dbg-main--fill .dbg-table__body {
-        flex: 1;
+    .dbg-main--fill .dbg-fill__list > .dbg-table > .dbg-table__body {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    .dbg-main--fill .dbg-side,
+    .dbg-main--fill .dbg-fill__aside {
         min-height: 0;
         overflow-y: auto;
         overscroll-behavior: contain;
     }
 
     .dbg-main--fill .dbg-pagination {
-        flex: none;
         padding-bottom: 0;
     }
 }
@@ -1221,6 +1251,7 @@ label.dbg-btn[aria-disabled='true'] {
    only given to browsers without it (Safari). */
 .dbg-table__body,
 .dbg-side,
+.dbg-fill__aside,
 .dbg-code,
 .dbg-dialog {
     scrollbar-width: thin;
@@ -1230,6 +1261,7 @@ label.dbg-btn[aria-disabled='true'] {
 @supports not (scrollbar-color: auto) {
     .dbg-table__body::-webkit-scrollbar,
     .dbg-side::-webkit-scrollbar,
+    .dbg-fill__aside::-webkit-scrollbar,
     .dbg-code::-webkit-scrollbar,
     .dbg-dialog::-webkit-scrollbar {
         width: 4px;
@@ -1239,6 +1271,7 @@ label.dbg-btn[aria-disabled='true'] {
 
     .dbg-table__body::-webkit-scrollbar-track,
     .dbg-side::-webkit-scrollbar-track,
+    .dbg-fill__aside::-webkit-scrollbar-track,
     .dbg-code::-webkit-scrollbar-track,
     .dbg-dialog::-webkit-scrollbar-track {
         margin: 8px 0;
@@ -1248,6 +1281,7 @@ label.dbg-btn[aria-disabled='true'] {
 
     .dbg-table__body::-webkit-scrollbar-thumb,
     .dbg-side::-webkit-scrollbar-thumb,
+    .dbg-fill__aside::-webkit-scrollbar-thumb,
     .dbg-code::-webkit-scrollbar-thumb,
     .dbg-dialog::-webkit-scrollbar-thumb {
         border-radius: 4px;

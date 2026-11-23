@@ -35,7 +35,7 @@ const fileLink = (name) => ({ query: { file: name } });
 <template>
     <h1 class="dbg-sr-only">Logs</h1>
     <LoadingState v-if="!data" :failed="failed" />
-    <div v-else class="dbg-split">
+    <div v-else class="dbg-split dbg-fill">
         <nav class="dbg-side" aria-label="Log files">
             <p class="dbg-side__label">Files</p>
             <RouterLink v-for="item in data.files" :key="item.name" :to="fileLink(item.name)" class="dbg-side__item"
@@ -45,7 +45,7 @@ const fileLink = (name) => ({ query: { file: name } });
             <p v-if="!data.files.length" class="dbg-side__label">None yet</p>
         </nav>
 
-        <div class="dbg-split__main">
+        <div class="dbg-split__main dbg-fill__list">
             <EmptyState v-if="!data.file" title="No log files yet" description="Laravel writes to storage/logs once something is logged." />
             <template v-else>
                 <form class="dbg-toolbar" role="search" @submit.prevent="filter({ q: search || undefined })">
