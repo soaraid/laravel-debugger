@@ -59,7 +59,9 @@ class LogReader
             }
         }
 
-        usort($found, fn (array $a, array $b): int => $b['modified'] <=> $a['modified']);
+        // Newest first; files written in the same second by name, so the
+        // order is the same every time (and Oldest first is its reverse).
+        usort($found, fn (array $a, array $b): int => [$b['modified'], $a['name']] <=> [$a['modified'], $b['name']]);
 
         return array_values($found);
     }
@@ -73,6 +75,51 @@ class LogReader
         foreach ($this->files() as $file) {
             if ($file['name'] === $name) {
                 return $this->root.DIRECTORY_SEPARATOR.$name;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Facts about one file for the File info dialog: where it is, how big,
+     * how many entries, and the first and last moments it covers.
+     *
+     * @return array{path: string, size: int, modified: int, entries: int, first: ?CarbonImmutable}
+     */
+    public function info(string $name): array
+    {
+        $path = $this->path($name) ?? throw new \InvalidArgumentException("{$name} is not a log file here.");
+
+        return [
+            'path' => $path,
+            'size' => (int) filesize($path),
+            'modified' => (int) filemtime($path),
+            'entries' => (new LogIndex($path, $this->indexDir))->refresh()->count(),
+            'first' => $this->firstTime($path),
+        ];
+    }
+
+    /**
+     * Time of the first entry: the first header line near the top of the file.
+     */
+    protected function firstTime(string $path): ?CarbonImmutable
+    {
+        $handle = @fopen($path, 'rb');
+
+        if ($handle === false) {
+            return null;
+        }
+
+        try {
+            $head = (string) fread($handle, 65536);
+        } finally {
+            fclose($handle);
+        }
+
+        foreach (preg_split('/\R/', $head) ?: [] as $line) {
+            if (preg_match(self::HEADER, $line, $match)) {
+                return $this->time($match['time']);
             }
         }
 

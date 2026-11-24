@@ -9,7 +9,7 @@ The Logs page reads log files in `storage/logs` straight from disk, without load
 
 ## What it shows
 
-- The log files on the left, the most recently changed on top, with their size.
+- The log files on the left, with their size. The most recently changed is on top; switch to *Oldest first* above the list, or type part of a name in *Find a file*. Daily logs (`LOG_STACK=daily`) show as one file per day, such as `laravel-2026-11-24.log`.
 - The newest log entries on top, with time, level, and message. The entry list scrolls inside the table, as tall as the rest of the window, so the pagination stays in view. On a short screen the list still shows about seven rows and the page scrolls instead.
 - The total number of entries, and the count per level in the level filter.
 
@@ -27,7 +27,12 @@ Click an entry to open it. For an exception, you see the class, message, file an
 
 ## Actions
 
-Each file in the list on the left has a ⋮ menu with two actions. Both ask first and are written to the audit log.
+Each file in the list on the left has a ⋮ menu.
+
+- **File info**: where the file is, its size, the number of entries, the time of the first entry and when it was last written.
+- **Download**: the raw file. It is written to the audit log.
+
+Under a divider, two actions that change the file. Both ask first and are written to the audit log.
 
 - **Clear file**: empties the file. The file stays, and new entries are written to it as usual.
 - **Delete file**: removes the file from `storage/logs`. It can't be undone.
@@ -40,7 +45,7 @@ The next and previous pages are fetched ahead in the background, so Next and Pre
 
 ## Read-only mode
 
-Clear file and Delete file are turned off. Reading, filtering and search still work.
+Clear file and Delete file are turned off. Reading, filtering, search, File info and Download still work.
 
 ## Limits
 

@@ -2,6 +2,7 @@
 
 namespace Soara\Debugger\Http\Controllers\Api;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Soara\Debugger\Audit\AuditLog;
@@ -9,6 +10,7 @@ use Soara\Debugger\Http\Controllers\Controller;
 use Soara\Debugger\Logs\LogEntry;
 use Soara\Debugger\Logs\LogReader;
 use Soara\Debugger\Support\Format;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class LogsController extends Controller
 {
@@ -27,7 +29,12 @@ class LogsController extends Controller
             : ['entries' => [], 'total' => 0, 'has_more' => false, 'levels' => []];
 
         return response()->json([
-            'files' => array_map(fn (array $f): array => ['name' => $f['name'], 'size' => Format::bytes($f['size'])], $files),
+            'files' => array_map(fn (array $f): array => [
+                'name' => $f['name'],
+                'size' => Format::bytes($f['size']),
+                'modified' => $f['modified'],
+                'download' => route('debugger.logs.download', ['file' => $f['name']]),
+            ], $files),
             'file' => $file,
             'level' => $level,
             'levels' => array_keys(LogEntry::TONES),
@@ -61,6 +68,42 @@ class LogsController extends Controller
             'context' => LogEntry::readable($entry->context()),
             'stack' => $entry->stack(),
         ];
+    }
+
+    public function info(Request $request, LogReader $reader): JsonResponse
+    {
+        try {
+            $info = $reader->info((string) $request->query('file'));
+        } catch (\InvalidArgumentException) {
+            abort(404);
+        }
+
+        $base = rtrim(base_path(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+        $location = str_starts_with($info['path'], $base) ? substr($info['path'], strlen($base)) : $info['path'];
+        $time = fn (?\DateTimeInterface $t): ?string => $t?->format('M j, Y H:i:s');
+
+        return response()->json([
+            'name' => (string) $request->query('file'),
+            'location' => $location,
+            'size' => Format::bytes($info['size']).($info['size'] >= 1024 ? ' ('.number_format($info['size']).' bytes)' : ''),
+            'entries' => number_format($info['entries']),
+            'first' => $time($info['first']),
+            'modified' => $time(CarbonImmutable::createFromTimestamp($info['modified'], config('app.timezone'))),
+        ]);
+    }
+
+    /**
+     * The raw file. Reading only, so it stays available in read-only mode,
+     * and it is written to the audit log like the actions.
+     */
+    public function download(Request $request, LogReader $reader, AuditLog $audit): BinaryFileResponse
+    {
+        $file = (string) $request->query('file');
+        $path = $reader->path($file) ?? abort(404);
+
+        $audit->record('logs.download', $file);
+
+        return response()->download($path, basename($file), ['Content-Type' => 'text/plain; charset=UTF-8']);
     }
 
     public function clear(Request $request, LogReader $reader, AuditLog $audit): JsonResponse

@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.1.12] - 2026-11-24
+
+### Added
+
+- Logs: each file's ⋮ menu has File info (location, size, entries, first entry, last written) and Download. Both work in read-only mode; downloads are written to the audit log.
+- Logs: the file list can be sorted newest or oldest first and filtered by name.
+
+### Changed
+
+- Logs: the file list is wider, so daily log names such as `laravel-2026-11-24.log` fit next to their size.
+- The footer's "Say hi" links to labs.soara.id.
+
 ## [0.1.11] - 2026-11-24
 
 ### Fixed
@@ -104,7 +116,8 @@ First release. A log viewer and the ops pages every Laravel app ends up needing,
 - Users: log in as another user and switch back.
 - Read-only mode, on by default in production, and an audit log of every action.
 
-[Unreleased]: https://github.com/soaraid/laravel-debugger/compare/v0.1.11...HEAD
+[Unreleased]: https://github.com/soaraid/laravel-debugger/compare/v0.1.12...HEAD
+[0.1.12]: https://github.com/soaraid/laravel-debugger/compare/v0.1.11...v0.1.12
 [0.1.11]: https://github.com/soaraid/laravel-debugger/compare/v0.1.10...v0.1.11
 [0.1.10]: https://github.com/soaraid/laravel-debugger/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/soaraid/laravel-debugger/compare/v0.1.8...v0.1.9

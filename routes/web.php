@@ -19,6 +19,7 @@ Route::prefix('api')->name('api.')->group(function () use ($module) {
     // Reading.
     Route::get('/overview', [Api\OverviewController::class, 'index'])->middleware($module('overview'))->name('overview');
     Route::get('/logs', [Api\LogsController::class, 'index'])->middleware($module('logs'))->name('logs');
+    Route::get('/logs/info', [Api\LogsController::class, 'info'])->middleware($module('logs'))->name('logs.info');
     Route::get('/queue', [Api\QueueController::class, 'index'])->middleware($module('queue'))->name('queue');
     Route::get('/scheduler', [Api\SchedulerController::class, 'index'])->middleware($module('scheduler'))->name('scheduler');
     Route::get('/cache', [Api\CacheController::class, 'index'])->middleware($module('cache'))->name('cache');
@@ -66,6 +67,9 @@ Route::prefix('api')->name('api.')->group(function () use ($module) {
 
     Route::any('/{any?}', fn () => abort(404))->where('any', '.*');
 });
+
+// Downloading a log file changes nothing, so it stays available in read-only mode.
+Route::get('/logs/download', [Api\LogsController::class, 'download'])->middleware($module('logs'))->name('logs.download');
 
 // Opening a test upload changes nothing, so it stays available in read-only mode.
 Route::get('/storage/file', [Api\StorageController::class, 'show'])->middleware($module('storage'))->name('storage.show');

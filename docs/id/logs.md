@@ -9,7 +9,7 @@ Halaman Logs membaca file log di `storage/logs` langsung dari disk, tanpa memuat
 
 ## Yang ditampilkan
 
-- Daftar file log di kiri, yang terakhir berubah paling atas, dengan ukurannya.
+- Daftar file log di kiri, dengan ukurannya. Yang terakhir berubah paling atas; pilih *Oldest first* di atas daftar untuk membalik urutannya, atau ketik sebagian nama di *Find a file*. Log harian (`LOG_STACK=daily`) tampil satu file per hari, misalnya `laravel-2026-11-24.log`.
 - Entri log terbaru di atas, dengan jam, level, dan pesan. Daftar entri di-scroll di dalam tabel, setinggi sisa layar, sehingga pagination tetap terlihat. Di layar pendek, daftar tetap menampilkan sekitar tujuh baris dan halaman yang di-scroll.
 - Jumlah total entri dan jumlah per level di filter level.
 
@@ -27,7 +27,12 @@ Klik satu entri untuk membukanya. Untuk exception, Anda melihat class, pesan, fi
 
 ## Aksi
 
-Setiap file di daftar kiri punya menu ⋮ dengan dua aksi. Keduanya meminta konfirmasi dulu dan tercatat di audit log.
+Setiap file di daftar kiri punya menu ⋮.
+
+- **File info**: lokasi file, ukurannya, jumlah entri, waktu entri pertama, dan kapan terakhir ditulis.
+- **Download**: file aslinya. Tercatat di audit log.
+
+Di bawah garis pemisah ada dua aksi yang mengubah file. Keduanya meminta konfirmasi dulu dan tercatat di audit log.
 
 - **Clear file**: mengosongkan isi file. File-nya tetap ada, dan entri baru ditulis seperti biasa.
 - **Delete file**: menghapus file dari `storage/logs`. Tidak bisa dibatalkan.
@@ -40,7 +45,7 @@ Halaman berikutnya dan sebelumnya diambil lebih dulu di belakang layar, jadi Nex
 
 ## Mode baca-saja
 
-Clear file dan Delete file dimatikan. Membaca, filter, dan pencarian tetap jalan.
+Clear file dan Delete file dimatikan. Membaca, filter, pencarian, File info, dan Download tetap jalan.
 
 ## Batasan
 
