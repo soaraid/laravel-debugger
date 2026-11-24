@@ -43,6 +43,8 @@ class LogReader
         }
 
         $found = [];
+        // Fresh sizes and dates, also in long-running processes (Octane, workers).
+        clearstatcache();
 
         foreach ($this->patterns as $pattern) {
             foreach ($this->glob($root, $pattern) as $path) {
@@ -88,6 +90,8 @@ class LogReader
         if (@file_put_contents($path, '', LOCK_EX) === false) {
             throw new \RuntimeException("Couldn't write to {$name}. Check the file permissions.");
         }
+
+        clearstatcache(true, $path);
     }
 
     /**

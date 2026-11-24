@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.1.10] - 2026-11-24
+
+### Fixed
+
+- Log file sizes and the log index are read fresh from disk, so a cleared file shows as empty right away on PHP 8.2 and in long-running processes such as Octane or queue workers.
+
 ## [0.1.9] - 2026-11-24
 
 ### Changed
@@ -92,7 +98,8 @@ First release. A log viewer and the ops pages every Laravel app ends up needing,
 - Users: log in as another user and switch back.
 - Read-only mode, on by default in production, and an audit log of every action.
 
-[Unreleased]: https://github.com/soaraid/laravel-debugger/compare/v0.1.9...HEAD
+[Unreleased]: https://github.com/soaraid/laravel-debugger/compare/v0.1.10...HEAD
+[0.1.10]: https://github.com/soaraid/laravel-debugger/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/soaraid/laravel-debugger/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/soaraid/laravel-debugger/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/soaraid/laravel-debugger/compare/v0.1.6...v0.1.7

@@ -5,7 +5,7 @@
     "repository": "https://github.com/soaraid/laravel-debugger",
     "stack": ["Laravel"],
     "category": "Debugging",
-    "version": "0.1.9",
+    "version": "0.1.10",
     "license": "MIT",
     "requires": { "php": "8.2+", "laravel": "12, 13" },
     "install": "composer require soara/laravel-debugger",

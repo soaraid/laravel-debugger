@@ -51,6 +51,9 @@ class LogIndex
     {
         $this->load();
 
+        // PHP caches file sizes per process (and PHP 8.2 doesn't drop the
+        // entry when the file is written), so ask the disk every time.
+        clearstatcache(true, $this->path);
         $size = (int) @filesize($this->path);
         $head = $this->fingerprint();
 
