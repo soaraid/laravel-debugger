@@ -16,7 +16,7 @@ The Scheduler page shows the tasks in `routes/console.php`, when they run next, 
 
 Run statuses:
 
-- `ran`: finished with exit code 0.
+- `success`: finished with exit code 0.
 - `failed`: an exit code other than 0, or an exception.
 - `skipped`: skipped, for example because of `withoutOverlapping()` while the previous run is still going.
 - `running`: still going, including `runInBackground()` tasks until they finish.

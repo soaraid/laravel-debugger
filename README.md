@@ -12,7 +12,7 @@ A log viewer and the ops pages every Laravel app ends up needing, on one page at
 | **Overview** | One list that shows which parts need a look, with a link to each. |
 | **Logs** | Read and search the files in `storage/logs`, filter by level, open an entry for its stack trace. Large files stay fast. |
 | **Queue** | Failed jobs with their exception. Retry, Retry all, Delete. Works with every failed job driver. |
-| **Scheduler** | Scheduled tasks with their next and last run, and a history of runs (ran, failed, skipped, running). |
+| **Scheduler** | Scheduled tasks with their next and last run, and a history of runs (success, failed, skipped, running). |
 | **Cache** | Clear the application, config, route and view caches, or rebuild them. |
 | **Mail** | Send a test email through the queue or right away, and see the mailer settings (never the password). |
 | **Storage** | Upload a test file to the upload disk, open or delete it, and check each disk. |

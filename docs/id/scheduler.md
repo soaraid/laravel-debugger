@@ -16,7 +16,7 @@ Halaman Scheduler menampilkan task di `routes/console.php`, kapan berikutnya jal
 
 Status run:
 
-- `ran`: selesai dengan exit code 0.
+- `success`: selesai dengan exit code 0.
 - `failed`: exit code bukan 0, atau ada exception.
 - `skipped`: dilewati, misalnya karena `withoutOverlapping()` dan run sebelumnya belum selesai.
 - `running`: masih berjalan, termasuk task `runInBackground()` sampai selesai.

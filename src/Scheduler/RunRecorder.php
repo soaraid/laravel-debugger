@@ -90,7 +90,7 @@ class RunRecorder
             return;
         }
 
-        $this->write($task, 'ran', null, 0, $ms);
+        $this->write($task, 'success', null, 0, $ms);
     }
 
     public function failed(ScheduledTaskFailed $event): void
@@ -145,7 +145,7 @@ class RunRecorder
             $finished = CarbonImmutable::now();
 
             $this->table()->where('id', $row->id)->update([
-                'status' => $code === 0 ? 'ran' : 'failed',
+                'status' => $code === 0 ? 'success' : 'failed',
                 'reason' => $code === 0 ? null : 'exit code '.($code ?? 'unknown'),
                 'exit_code' => $code,
                 'finished_at' => $finished,

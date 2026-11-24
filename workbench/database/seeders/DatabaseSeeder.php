@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
             $rows[] = [
                 'task' => 'task:schedule-run',
                 'expression' => '* * * * *',
-                'status' => $skipped ? 'skipped' : 'ran',
+                'status' => $skipped ? 'skipped' : 'success',
                 'reason' => $skipped ? 'previous run still going' : null,
                 'exit_code' => $skipped ? null : 0,
                 'started_at' => $at,
@@ -99,7 +99,7 @@ class DatabaseSeeder extends Seeder
                 $rows[] = [
                     'task' => 'orders:expire-unpaid',
                     'expression' => '*/15 * * * *',
-                    'status' => $failed ? 'failed' : 'ran',
+                    'status' => $failed ? 'failed' : 'success',
                     'reason' => $failed ? 'exit code 1' : null,
                     'exit_code' => $failed ? 1 : 0,
                     'started_at' => $at,

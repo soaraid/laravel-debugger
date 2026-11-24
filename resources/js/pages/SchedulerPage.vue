@@ -11,7 +11,7 @@ import StatusText from '../components/StatusText.vue';
 import TableRow from '../components/TableRow.vue';
 
 const { data, failed } = useResource('/scheduler');
-const tones = { ran: 'ok', failed: 'danger', skipped: 'muted', running: 'muted' };
+const tones = { success: 'ok', failed: 'danger', skipped: 'muted', running: 'muted' };
 
 const summary = computed(() => data.value && (data.value.last_beat
     ? `Last run ${data.value.last_beat}. Runs are kept for ${data.value.retention} days.`

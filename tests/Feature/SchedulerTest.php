@@ -31,7 +31,7 @@ it('records a successful run once', function () {
     Artisan::call('schedule:run');
 
     expect(runs())->toHaveCount(1)
-        ->and(runs()[0]->status)->toBe('ran')
+        ->and(runs()[0]->status)->toBe('success')
         ->and(runs()[0]->task)->toBe('ok-task')
         ->and(runs()[0]->exit_code)->toBe(0);
 });
@@ -89,7 +89,7 @@ it('completes a background run when schedule:finish reports back', function () {
     event(new ScheduledBackgroundTaskFinished($event));
 
     expect(runs())->toHaveCount(1)
-        ->and(runs()[0]->status)->toBe('ran')
+        ->and(runs()[0]->status)->toBe('success')
         ->and(runs()[0]->finished_at)->not->toBeNull();
 });
 
@@ -134,8 +134,8 @@ it('warns when the scheduler stopped running', function () {
 
 it('prunes old runs', function () {
     DB::table('debugger_schedule_runs')->insert([
-        ['task' => 'old', 'expression' => '* * * * *', 'status' => 'ran', 'started_at' => now()->subDays(10)],
-        ['task' => 'new', 'expression' => '* * * * *', 'status' => 'ran', 'started_at' => now()],
+        ['task' => 'old', 'expression' => '* * * * *', 'status' => 'success', 'started_at' => now()->subDays(10)],
+        ['task' => 'new', 'expression' => '* * * * *', 'status' => 'success', 'started_at' => now()],
     ]);
 
     Artisan::call('debugger:prune');
@@ -147,11 +147,18 @@ it('pages recent runs 25 at a time with page numbers', function () {
     Debugger::auth(fn () => true);
     $rows = [];
     for ($i = 0; $i < 30; $i++) {
-        $rows[] = ['task' => 'ping', 'expression' => '* * * * *', 'status' => 'ran', 'started_at' => now()->subMinutes($i), 'finished_at' => now()->subMinutes($i)];
+        $rows[] = ['task' => 'ping', 'expression' => '* * * * *', 'status' => 'success', 'started_at' => now()->subMinutes($i), 'finished_at' => now()->subMinutes($i)];
     }
     DB::table('debugger_schedule_runs')->insert($rows);
 
     $page = $this->getJson('/debugger/api/scheduler?page=2')->assertOk()->json('pagination');
 
     expect($page)->toMatchArray(['page' => 2, 'last_page' => 2, 'range' => '26–30 of 30', 'has_previous' => true, 'has_next' => false]);
+});
+
+it('shows runs recorded as ran by older versions as success', function () {
+    Debugger::auth(fn () => true);
+    DB::table('debugger_schedule_runs')->insert(['task' => 'old', 'expression' => '* * * * *', 'status' => 'ran', 'started_at' => now()]);
+
+    expect($this->getJson('/debugger/api/scheduler')->json('runs.0.status'))->toBe('success');
 });

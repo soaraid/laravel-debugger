@@ -25,13 +25,13 @@ class SchedulerController extends Controller
                 'every' => $task['every'],
                 'next' => $task['next']?->diffForHumans(['parts' => 1]),
                 'last' => $task['last_at']?->diffForHumans(['parts' => 1]),
-                'last_status' => $task['last_status'],
+                'last_status' => $this->status($task['last_status']),
             ], $runs->tasks()),
             'runs' => array_map(fn (object $run): array => [
                 'id' => $run->id,
                 'time' => Format::time(CarbonImmutable::parse($run->started_at)),
                 'task' => $run->task,
-                'status' => $run->status,
+                'status' => $this->status($run->status),
                 'reason' => $run->reason,
                 'took' => $run->duration_ms !== null ? Format::milliseconds((float) $run->duration_ms) : null,
             ], $recent['runs']),
@@ -43,5 +43,13 @@ class SchedulerController extends Controller
             'retention' => (int) config('debugger.scheduler.retention_days', 7),
             'pagination' => $this->pages($page, count($recent['runs']), 25, $recent['has_more'], $recent['total']),
         ]);
+    }
+
+    /**
+     * v0.1.0 to v0.1.5 recorded a successful run as "ran".
+     */
+    protected function status(?string $status): ?string
+    {
+        return $status === 'ran' ? 'success' : $status;
     }
 }
