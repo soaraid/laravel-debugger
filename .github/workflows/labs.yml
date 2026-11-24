@@ -2,7 +2,7 @@ name: Update labs.soara.id
 on:
   push:
     branches: [main]
-    paths: ['docs/**']
+    paths: ['docs/**', 'CHANGELOG.md']
   workflow_dispatch:
 jobs:
   deploy:
