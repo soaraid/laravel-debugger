@@ -44,7 +44,7 @@
     "src": "node_modules/@fontsource-variable/geist/files/geist-vietnamese-wght-normal.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CyKCjhpt.css",
+    "file": "assets/app-DFkyuU1z.css",
     "name": "app",
     "names": [
       "app.css"
@@ -66,7 +66,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-DWGGWxGJ.js",
+    "file": "assets/app-BQZg9oxJ.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

@@ -22,7 +22,7 @@ Di production, semua aksi mati secara default. Lihat [Mode baca-saja](./read-onl
 ## Log
 
 - Hanya file di `storage/logs` yang dibaca. File dipilih dari daftar, tidak dari path yang dikirim browser, jadi `../` tidak bisa dipakai.
-- Debugger tidak bisa menghapus atau mengubah file log.
+- Clear dan Delete hanya bisa mengenai file yang ada di daftar itu, dan mati di mode baca-saja.
 
 ## Storage
 
@@ -47,6 +47,7 @@ Di production, semua aksi mati secara default. Lihat [Mode baca-saja](./read-onl
 
 Setiap aksi tercatat di tabel `debugger_audit_logs`: siapa, aksi apa, targetnya, IP, dan waktunya. Yang dicatat:
 
+- Clear dan Delete di Logs
 - Retry, Retry all, dan Delete di Queue
 - Clear dan Rebuild di Cache
 - Email tes

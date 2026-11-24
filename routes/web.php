@@ -29,6 +29,11 @@ Route::prefix('api')->name('api.')->group(function () use ($module) {
 
     // Actions. Every route here changes something, so read-only mode blocks it.
     Route::middleware(EnsureWritable::class)->group(function () use ($module) {
+        Route::middleware($module('logs'))->prefix('logs')->name('logs.')->group(function () {
+            Route::post('/clear', [Api\LogsController::class, 'clear'])->name('clear');
+            Route::delete('/', [Api\LogsController::class, 'destroy'])->name('destroy');
+        });
+
         Route::middleware($module('queue'))->prefix('queue')->name('queue.')->group(function () {
             Route::post('/retry-all', [Api\QueueController::class, 'retryAll'])->name('retry-all');
             Route::post('/{id}/retry', [Api\QueueController::class, 'retry'])->where('id', '[A-Za-z0-9-]+')->name('retry');

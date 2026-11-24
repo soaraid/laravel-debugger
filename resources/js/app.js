@@ -35,9 +35,7 @@ const router = createRouter({
     history: createWebHistory(config.base),
     routes: [
         { path: '/', redirect: `/${modules[0]}` },
-        // Pages built around one long list fill the screen: the rows scroll
-        // inside the table and the title and pagination stay in view.
-        ...modules.map((key) => ({ path: `/${key}`, name: key, component: pages[key], meta: { title: config.modules[key], fill: ['logs', 'queue', 'scheduler', 'users'].includes(key) } })),
+        ...modules.map((key) => ({ path: `/${key}`, name: key, component: pages[key], meta: { title: config.modules[key] } })),
         { path: '/:pathMatch(.*)*', name: 'missing', component: MissingPage, meta: { title: 'Not found' } },
     ],
     // Back to the top for a new section or another page of the same list.

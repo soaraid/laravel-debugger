@@ -24,6 +24,7 @@ Saat aktif, debugger menampilkan "Read-only: actions are turned off in this envi
 
 ## Aksi yang dimatikan
 
+- Logs: Clear, Delete
 - Queue: Retry, Retry all, Delete
 - Cache: Clear, Rebuild
 - Mail: Send test email

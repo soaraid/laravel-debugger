@@ -22,7 +22,7 @@ In production, every action is off by default. See [Read-only mode](./read-only-
 ## Logs
 
 - Only files in `storage/logs` are read. A file is picked from the list, never from a path the browser sends, so `../` can't be used.
-- The debugger can't delete or change log files.
+- Clear and Delete only reach files in that list, and are off in read-only mode.
 
 ## Storage
 
@@ -47,6 +47,7 @@ In production, every action is off by default. See [Read-only mode](./read-only-
 
 Every action is written to the `debugger_audit_logs` table: who, which action, its target, the IP, and the time. What is recorded:
 
+- Clear and Delete in Logs
 - Retry, Retry all, and Delete in Queue
 - Clear and Rebuild in Cache
 - Test emails

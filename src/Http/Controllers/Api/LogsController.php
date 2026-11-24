@@ -4,6 +4,7 @@ namespace Soara\Debugger\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Soara\Debugger\Audit\AuditLog;
 use Soara\Debugger\Http\Controllers\Controller;
 use Soara\Debugger\Logs\LogEntry;
 use Soara\Debugger\Logs\LogReader;
@@ -60,5 +61,40 @@ class LogsController extends Controller
             'context' => LogEntry::readable($entry->context()),
             'stack' => $entry->stack(),
         ];
+    }
+
+    public function clear(Request $request, LogReader $reader, AuditLog $audit): JsonResponse
+    {
+        return $this->change($request, $audit, 'logs.clear', function (string $file) use ($reader): string {
+            $reader->clear($file);
+
+            return "Cleared {$file}.";
+        });
+    }
+
+    public function destroy(Request $request, LogReader $reader, AuditLog $audit): JsonResponse
+    {
+        return $this->change($request, $audit, 'logs.delete', function (string $file) use ($reader): string {
+            $reader->delete($file);
+
+            return "Deleted {$file}.";
+        });
+    }
+
+    /**
+     * @param  \Closure(string): string  $action
+     */
+    protected function change(Request $request, AuditLog $audit, string $name, \Closure $action): JsonResponse
+    {
+        $file = (string) $request->input('file');
+
+        try {
+            $text = $action($file);
+            $audit->record($name, $file);
+
+            return $this->notice($text);
+        } catch (\Throwable $e) {
+            return $this->notice($e->getMessage(), 'danger');
+        }
     }
 }

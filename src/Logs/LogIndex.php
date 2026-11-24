@@ -262,6 +262,20 @@ class LogIndex
         $this->saveMeta();
     }
 
+    /**
+     * Remove the stored index, e.g. after the log file was deleted.
+     */
+    public function forget(): void
+    {
+        if ($this->storeDir === null) {
+            return;
+        }
+
+        foreach (['off', 'lvl', 'json'] as $extension) {
+            @unlink($this->file($extension));
+        }
+    }
+
     protected function reset(string $head): void
     {
         $this->scanned = 0;

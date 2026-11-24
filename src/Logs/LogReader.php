@@ -78,6 +78,33 @@ class LogReader
     }
 
     /**
+     * Empty a log file, keeping the file itself. The index notices the file
+     * got shorter and starts over.
+     */
+    public function clear(string $name): void
+    {
+        $path = $this->path($name) ?? throw new \InvalidArgumentException("{$name} is not a log file here.");
+
+        if (@file_put_contents($path, '', LOCK_EX) === false) {
+            throw new \RuntimeException("Couldn't write to {$name}. Check the file permissions.");
+        }
+    }
+
+    /**
+     * Delete a log file and its index.
+     */
+    public function delete(string $name): void
+    {
+        $path = $this->path($name) ?? throw new \InvalidArgumentException("{$name} is not a log file here.");
+        $index = new LogIndex($path, $this->indexDir);
+        $index->forget();
+
+        if (! @unlink($path)) {
+            throw new \RuntimeException("Couldn't delete {$name}. Check the file permissions.");
+        }
+    }
+
+    /**
      * Newest-first page of entries, with the total so the page can show
      * page numbers.
      *

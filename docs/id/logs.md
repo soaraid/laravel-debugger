@@ -10,7 +10,7 @@ Halaman Logs membaca file log di `storage/logs` langsung dari disk, tanpa memuat
 ## Yang ditampilkan
 
 - Daftar file log di kiri, yang terakhir berubah paling atas, dengan ukurannya.
-- Entri log terbaru di atas, dengan jam, level, dan pesan. Halaman mengisi layar: yang di-scroll hanya daftar entri, dan pagination tetap terlihat.
+- Entri log terbaru di atas, dengan jam, level, dan pesan. Daftar entri di-scroll di dalam tabel, setinggi sisa layar, sehingga pagination tetap terlihat. Di layar pendek, daftar tetap menampilkan sekitar tujuh baris dan halaman yang di-scroll.
 - Jumlah total entri dan jumlah per level di filter level.
 
 Klik satu entri untuk membukanya. Untuk exception, Anda melihat class, pesan, file dan baris, lalu stack trace. Frame dari `vendor/` disembunyikan dulu dan bisa dibuka dengan tombol "Show … vendor frames". Context JSON ditampilkan dengan format yang rapi.
@@ -25,6 +25,13 @@ Klik satu entri untuk membukanya. Untuk exception, Anda melihat class, pesan, fi
 - `logs.paths`: pola file yang dibaca, relatif terhadap `storage/logs`. Bawaannya `['*.log', '**/*.log']`.
 - `logs.per_page`: jumlah entri per halaman. Bawaannya `25`.
 
+## Aksi
+
+Di samping jumlah entri ada dua tombol untuk file yang sedang dibuka. Keduanya meminta konfirmasi dulu dan tercatat di audit log.
+
+- **Clear**: mengosongkan isi file. File-nya tetap ada, dan entri baru ditulis seperti biasa.
+- **Delete**: menghapus file dari `storage/logs`. Tidak bisa dibatalkan.
+
 ## Cara kerjanya
 
 Saat file pertama kali dibuka, debugger membuat index kecil berisi posisi dan level tiap entri. Setelah itu hanya bagian yang baru ditambahkan yang dibaca. Index disimpan di `storage/framework/cache/debugger-logs` dan dibuat ulang otomatis kalau file dirotasi atau dikosongkan.
@@ -33,10 +40,9 @@ Halaman berikutnya dan sebelumnya diambil lebih dulu di belakang layar, jadi Nex
 
 ## Mode baca-saja
 
-Logs hanya membaca, jadi tidak ada yang berubah di mode baca-saja.
+Clear dan Delete dimatikan. Membaca, filter, dan pencarian tetap jalan.
 
 ## Batasan
 
 - Hanya format log bawaan Laravel (`[2026-11-23 10:00:00] production.ERROR: ...`) yang dikenali. Baris lain dianggap lanjutan entri sebelumnya.
 - Pencarian harus membaca seluruh file. Di file besar, pencarian pertama butuh waktu. Hasilnya diingat 2 menit, jadi pindah halaman pada pencarian yang sama tetap cepat.
-- Tidak ada aksi hapus atau kosongkan file log.

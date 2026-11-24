@@ -41,8 +41,8 @@ return [
     | Read-only mode
     |--------------------------------------------------------------------------
     |
-    | Blocks every action (retry, delete, clear cache, send, upload, ping,
-    | impersonate) and keeps the pages readable. null means "on in
+    | Blocks every action (clear or delete a log, retry, delete, clear cache,
+    | send, upload, ping, impersonate) and keeps the pages readable. null means "on in
     | production, off everywhere else".
     |
     */

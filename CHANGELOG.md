@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.1.8] - 2026-11-24
+
+### Added
+
+- Logs has Clear and Delete for the open log file, with a confirmation, turned off in read-only mode and written to the audit log.
+
+### Fixed
+
+- On short screens, such as a tablet in landscape, list pages no longer squeeze the list down to a row or two: the list keeps at least about seven rows and the page scrolls instead.
+
 ## [0.1.7] - 2026-11-24
 
 ### Changed
@@ -75,7 +85,8 @@ First release. A log viewer and the ops pages every Laravel app ends up needing,
 - Users: log in as another user and switch back.
 - Read-only mode, on by default in production, and an audit log of every action.
 
-[Unreleased]: https://github.com/soaraid/laravel-debugger/compare/v0.1.7...HEAD
+[Unreleased]: https://github.com/soaraid/laravel-debugger/compare/v0.1.8...HEAD
+[0.1.8]: https://github.com/soaraid/laravel-debugger/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/soaraid/laravel-debugger/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/soaraid/laravel-debugger/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/soaraid/laravel-debugger/compare/v0.1.4...v0.1.5

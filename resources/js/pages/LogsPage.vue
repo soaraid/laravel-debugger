@@ -1,7 +1,10 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { api } from '../api';
+import { config } from '../config';
 import { useResource } from '../useResource';
+import ConfirmButton from '../components/ConfirmButton.vue';
 import DataTable from '../components/DataTable.vue';
 import DButton from '../components/DButton.vue';
 import EmptyState from '../components/EmptyState.vue';
@@ -14,7 +17,11 @@ import TableRow from '../components/TableRow.vue';
 
 const route = useRoute();
 const router = useRouter();
-const { data, failed } = useResource('/logs');
+const { data, failed, reload } = useResource('/logs');
+
+const clearFile = () => api.post('/logs/clear', { file: data.value.file }).then(reload);
+// The file is gone: show whichever file is newest now.
+const deleteFile = () => api.delete('/logs', { file: data.value.file }).then(() => router.push({ query: {} }));
 const search = ref(route.query.q || '');
 
 watch(() => route.query.q, (q) => (search.value = q || ''));
@@ -59,6 +66,12 @@ const fileLink = (name) => ({ query: { file: name } });
                         </option>
                     </select>
                     <span class="dbg-toolbar__meta">{{ data.total.toLocaleString() }} {{ data.total === 1 ? 'entry' : 'entries' }}</span>
+                    <ConfirmButton label="Clear" variant="secondary" :title="`Clear ${data.file}?`"
+                        body="Every entry in this file is removed. The file stays, and new entries are written to it as usual."
+                        confirm="Clear file" busy-label="Clearing…" :disabled="config.readOnly" :action="clearFile" />
+                    <ConfirmButton label="Delete" variant="secondary" :title="`Delete ${data.file}?`"
+                        body="The file is removed from storage/logs and can't be recovered."
+                        confirm="Delete file" busy-label="Deleting…" :disabled="config.readOnly" :action="deleteFile" />
                 </form>
 
                 <EmptyState v-if="!data.entries.length && (data.search || data.level)"
