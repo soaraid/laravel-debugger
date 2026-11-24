@@ -100,11 +100,11 @@ return [
     | External connections
     |--------------------------------------------------------------------------
     |
-    | 'midtrans' => [
-    |     'name' => 'Midtrans',
-    |     'url' => 'https://api.midtrans.com/v2/ping',
+    | 'payment' => [
+    |     'name' => 'Payment API',
+    |     'url' => 'https://api.example.com/v1/ping',
     |     'method' => 'GET',
-    |     'headers' => ['Authorization' => 'Basic '.env('MIDTRANS_KEY')],
+    |     'headers' => ['Authorization' => 'Bearer '.env('PAYMENT_API_KEY')],
     |     'timeout' => 5,
     | ],
     |

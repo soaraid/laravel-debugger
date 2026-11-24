@@ -587,6 +587,120 @@
     font-weight: 500;
 }
 
+/* A file with its ⋮ menu (Doop: LogFileItem). The ⋮ shows on hover, on
+   keyboard focus, on the open file and while its menu is open. */
+.dbg-side__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: var(--radius-sm);
+}
+
+.dbg-side__row .dbg-side__item {
+    flex: 1;
+    min-width: 0;
+    padding-inline-end: 4px;
+}
+
+.dbg-side__row.is-current {
+    background: var(--color-bg-selected);
+}
+
+.dbg-side__row .dbg-side__item[aria-current='page'] {
+    background: transparent;
+}
+
+.dbg-side__row .dbg-menu__button {
+    opacity: 0;
+}
+
+.dbg-side__row.is-current .dbg-menu__button,
+.dbg-side__row:hover .dbg-menu__button,
+.dbg-side__row .dbg-menu__button:focus-visible,
+.dbg-side__row .dbg-menu__button[aria-expanded='true'] {
+    opacity: 1;
+}
+
+@media (hover: hover) {
+    .dbg-side__row:not(.is-current):hover {
+        background: var(--color-bg-hover);
+    }
+}
+
+/* menu (Doop: ActionMenu) ---------------------------------------------------- */
+
+.dbg-menu {
+    position: relative;
+    flex: none;
+}
+
+.dbg-menu__button {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-inline-end: 2px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+}
+
+.dbg-menu__button:hover,
+.dbg-menu__button[aria-expanded='true'] {
+    background: var(--color-border);
+    color: var(--color-text);
+}
+
+.dbg-menu__list {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+    padding: 4px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    box-shadow: 0 6px 20px rgb(17 17 17 / 0.08);
+}
+
+.dbg-menu__item {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.dbg-menu__item:hover:not(:disabled) {
+    background: var(--color-bg-hover);
+}
+
+.dbg-menu__item--danger {
+    color: var(--color-danger-text);
+}
+
+.dbg-menu__item--danger:hover:not(:disabled) {
+    background: var(--color-danger-bg);
+}
+
+.dbg-menu__item:disabled {
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+}
+
 @media (hover: hover) {
     .dbg-side__item:not([aria-current='page']):hover {
         background: var(--color-bg-hover);

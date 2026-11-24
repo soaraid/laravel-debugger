@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.1.9] - 2026-11-24
+
+### Changed
+
+- Clear and Delete for a log file moved into a ⋮ menu on each file in the list, so the toolbar above the entries is only for search and filters.
+- The connections example in the config and on the Connections page uses a neutral example API.
+
 ## [0.1.8] - 2026-11-24
 
 ### Added
@@ -85,7 +92,8 @@ First release. A log viewer and the ops pages every Laravel app ends up needing,
 - Users: log in as another user and switch back.
 - Read-only mode, on by default in production, and an audit log of every action.
 
-[Unreleased]: https://github.com/soaraid/laravel-debugger/compare/v0.1.8...HEAD
+[Unreleased]: https://github.com/soaraid/laravel-debugger/compare/v0.1.9...HEAD
+[0.1.9]: https://github.com/soaraid/laravel-debugger/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/soaraid/laravel-debugger/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/soaraid/laravel-debugger/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/soaraid/laravel-debugger/compare/v0.1.5...v0.1.6

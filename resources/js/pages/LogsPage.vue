@@ -5,6 +5,7 @@ import { api } from '../api';
 import { config } from '../config';
 import { useResource } from '../useResource';
 import ConfirmButton from '../components/ConfirmButton.vue';
+import MenuButton from '../components/MenuButton.vue';
 import DataTable from '../components/DataTable.vue';
 import DButton from '../components/DButton.vue';
 import EmptyState from '../components/EmptyState.vue';
@@ -19,9 +20,31 @@ const route = useRoute();
 const router = useRouter();
 const { data, failed, reload } = useResource('/logs');
 
-const clearFile = () => api.post('/logs/clear', { file: data.value.file }).then(reload);
-// The file is gone: show whichever file is newest now.
-const deleteFile = () => api.delete('/logs', { file: data.value.file }).then(() => router.push({ query: {} }));
+// Clear and Delete come from a file's ⋮ menu, then ask in a dialog.
+const pendingClear = ref(null);
+const confirmClear = ref(null);
+const pendingDelete = ref(null);
+const confirmDelete = ref(null);
+
+function askClear(name) {
+    pendingClear.value = name;
+    confirmClear.value.open();
+}
+
+function askDelete(name) {
+    pendingDelete.value = name;
+    confirmDelete.value.open();
+}
+
+const clearFile = () => api.post('/logs/clear', { file: pendingClear.value }).then(reload);
+
+async function deleteFile() {
+    const name = pendingDelete.value;
+    await api.delete('/logs', { file: name });
+    // The open file is gone: show whichever file is newest now.
+    if (name === data.value.file) await router.push({ query: {} });
+    else reload();
+}
 const search = ref(route.query.q || '');
 
 watch(() => route.query.q, (q) => (search.value = q || ''));
@@ -45,12 +68,28 @@ const fileLink = (name) => ({ query: { file: name } });
     <div v-else class="dbg-split dbg-fill">
         <nav class="dbg-side" aria-label="Log files">
             <p class="dbg-side__label">Files</p>
-            <RouterLink v-for="item in data.files" :key="item.name" :to="fileLink(item.name)" class="dbg-side__item"
-                :aria-current="item.name === data.file ? 'page' : null">
-                <span>{{ item.name }}</span><span>{{ item.size }}</span>
-            </RouterLink>
+            <div v-for="item in data.files" :key="item.name" class="dbg-side__row" :class="{ 'is-current': item.name === data.file }">
+                <RouterLink :to="fileLink(item.name)" class="dbg-side__item" :aria-current="item.name === data.file ? 'page' : null">
+                    <span>{{ item.name }}</span><span>{{ item.size }}</span>
+                </RouterLink>
+                <MenuButton :label="`Actions for ${item.name}`">
+                    <button type="button" class="dbg-menu__item" role="menuitem" :disabled="config.readOnly"
+                        :title="config.readOnly ? 'Read-only: actions are turned off in this environment.' : null" @click="askClear(item.name)">
+                        Clear file
+                    </button>
+                    <button type="button" class="dbg-menu__item dbg-menu__item--danger" role="menuitem" :disabled="config.readOnly"
+                        :title="config.readOnly ? 'Read-only: actions are turned off in this environment.' : null" @click="askDelete(item.name)">
+                        Delete file
+                    </button>
+                </MenuButton>
+            </div>
             <p v-if="!data.files.length" class="dbg-side__label">None yet</p>
         </nav>
+        <ConfirmButton ref="confirmClear" :trigger="false" label="Clear file" :title="`Clear ${pendingClear}?`"
+            body="Every entry in this file is removed. The file stays, and new entries are written to it as usual." confirm="Clear file"
+            busy-label="Clearing…" :action="clearFile" />
+        <ConfirmButton ref="confirmDelete" :trigger="false" label="Delete file" :title="`Delete ${pendingDelete}?`"
+            body="The file is removed from storage/logs and can't be recovered." confirm="Delete file" busy-label="Deleting…" :action="deleteFile" />
 
         <div class="dbg-split__main dbg-fill__list">
             <EmptyState v-if="!data.file" title="No log files yet" description="Laravel writes to storage/logs once something is logged." />
@@ -66,12 +105,6 @@ const fileLink = (name) => ({ query: { file: name } });
                         </option>
                     </select>
                     <span class="dbg-toolbar__meta">{{ data.total.toLocaleString() }} {{ data.total === 1 ? 'entry' : 'entries' }}</span>
-                    <ConfirmButton label="Clear" variant="secondary" :title="`Clear ${data.file}?`"
-                        body="Every entry in this file is removed. The file stays, and new entries are written to it as usual."
-                        confirm="Clear file" busy-label="Clearing…" :disabled="config.readOnly" :action="clearFile" />
-                    <ConfirmButton label="Delete" variant="secondary" :title="`Delete ${data.file}?`"
-                        body="The file is removed from storage/logs and can't be recovered."
-                        confirm="Delete file" busy-label="Deleting…" :disabled="config.readOnly" :action="deleteFile" />
                 </form>
 
                 <EmptyState v-if="!data.entries.length && (data.search || data.level)"

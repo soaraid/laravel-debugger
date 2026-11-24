@@ -15,11 +15,15 @@ const props = defineProps({
     confirmVariant: { type: String, default: 'danger' },
     disabled: { type: Boolean, default: false },
     action: { type: Function, required: true },
+    // false: no button of its own; open it from elsewhere with open().
+    trigger: { type: Boolean, default: true },
 });
 
 const dialog = ref(null);
 const busy = ref(false);
 const titleId = useId();
+
+defineExpose({ open: () => dialog.value.showModal() });
 
 async function run() {
     busy.value = true;
@@ -35,7 +39,7 @@ async function run() {
 </script>
 
 <template>
-    <DButton :variant="variant" :disabled="disabled" @click="dialog.showModal()">{{ label }}</DButton>
+    <DButton v-if="trigger" :variant="variant" :disabled="disabled" @click="dialog.showModal()">{{ label }}</DButton>
     <dialog ref="dialog" class="dbg-dialog" :aria-labelledby="titleId">
         <form method="dialog" @submit.prevent="run">
             <h2 :id="titleId">{{ title }}</h2>

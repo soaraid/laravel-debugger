@@ -96,7 +96,7 @@ return [
     'scheduler' => ['retention_days' => 7, 'late_after_minutes' => 3],
     'mail'      => ['override_recipient' => env('DEBUGGER_MAIL_TO')],
     'storage'   => ['disk' => env('DEBUGGER_STORAGE_DISK', 'local'), 'folder' => 'debugger', 'max_kb' => 51200],
-    'connections' => [ /* 'midtrans' => ['url' => …, 'method' => 'GET', 'headers' => […], 'timeout' => 5] */ ],
+    'connections' => [ /* 'payment' => ['url' => …, 'method' => 'GET', 'headers' => […], 'timeout' => 5] */ ],
     'database' => [
         'connection' => env('DEBUGGER_DB_CONNECTION'),   // null = koneksi default aplikasi
         'tables' => [

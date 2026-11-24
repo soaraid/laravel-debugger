@@ -24,9 +24,9 @@ const columns = [
 ];
 
 const example = `'connections' => [
-    'midtrans' => [
-        'url'     => 'https://api.midtrans.com/v2/ping',
-        'headers' => ['Authorization' => 'Basic '.env('MIDTRANS_KEY')],
+    'payment' => [
+        'url'     => 'https://api.example.com/v1/ping',
+        'headers' => ['Authorization' => 'Bearer '.env('PAYMENT_API_KEY')],
         'timeout' => 5,
     ],
 ],`;

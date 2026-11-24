@@ -27,10 +27,10 @@ Click an entry to open it. For an exception, you see the class, message, file an
 
 ## Actions
 
-Next to the entry count are two buttons for the open file. Both ask first and are written to the audit log.
+Each file in the list on the left has a ⋮ menu with two actions. Both ask first and are written to the audit log.
 
-- **Clear**: empties the file. The file stays, and new entries are written to it as usual.
-- **Delete**: removes the file from `storage/logs`. It can't be undone.
+- **Clear file**: empties the file. The file stays, and new entries are written to it as usual.
+- **Delete file**: removes the file from `storage/logs`. It can't be undone.
 
 ## How it works
 
@@ -40,7 +40,7 @@ The next and previous pages are fetched ahead in the background, so Next and Pre
 
 ## Read-only mode
 
-Clear and Delete are turned off. Reading, filtering and search still work.
+Clear file and Delete file are turned off. Reading, filtering and search still work.
 
 ## Limits
 

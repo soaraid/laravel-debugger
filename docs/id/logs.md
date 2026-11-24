@@ -27,10 +27,10 @@ Klik satu entri untuk membukanya. Untuk exception, Anda melihat class, pesan, fi
 
 ## Aksi
 
-Di samping jumlah entri ada dua tombol untuk file yang sedang dibuka. Keduanya meminta konfirmasi dulu dan tercatat di audit log.
+Setiap file di daftar kiri punya menu ⋮ dengan dua aksi. Keduanya meminta konfirmasi dulu dan tercatat di audit log.
 
-- **Clear**: mengosongkan isi file. File-nya tetap ada, dan entri baru ditulis seperti biasa.
-- **Delete**: menghapus file dari `storage/logs`. Tidak bisa dibatalkan.
+- **Clear file**: mengosongkan isi file. File-nya tetap ada, dan entri baru ditulis seperti biasa.
+- **Delete file**: menghapus file dari `storage/logs`. Tidak bisa dibatalkan.
 
 ## Cara kerjanya
 
@@ -40,7 +40,7 @@ Halaman berikutnya dan sebelumnya diambil lebih dulu di belakang layar, jadi Nex
 
 ## Mode baca-saja
 
-Clear dan Delete dimatikan. Membaca, filter, dan pencarian tetap jalan.
+Clear file dan Delete file dimatikan. Membaca, filter, dan pencarian tetap jalan.
 
 ## Batasan
 

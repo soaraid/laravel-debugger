@@ -24,7 +24,7 @@ While it is on, the debugger shows "Read-only: actions are turned off in this en
 
 ## Actions it turns off
 
-- Logs: Clear, Delete
+- Logs: Clear file, Delete file
 - Queue: Retry, Retry all, Delete
 - Cache: Clear, Rebuild
 - Mail: Send test email
