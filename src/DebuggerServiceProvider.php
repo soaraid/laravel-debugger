@@ -5,7 +5,6 @@ namespace Soara\Debugger;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Queue\Events\JobProcessed;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Soara\Debugger\Console\PruneCommand;
@@ -40,7 +39,6 @@ class DebuggerServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'debugger');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'debugger');
-        Blade::anonymousComponentPath(__DIR__.'/../resources/views/components', 'debugger');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->registerRoutes();
